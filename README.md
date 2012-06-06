@@ -26,6 +26,4 @@ Para um melhor aproveito do `enter-indent` recomendo que você use os seguintes 
 
 * http://github.com/Raimondi/delimitMate - Fecha automaticamente aspas, parentese, colchete e etc
 * http://github.com/tpope/vim-ragtag - Atalho para criar tags como `<?php ?>`
-* http://github.com/acustodioo/vim-snipmate - Transforma palavras chaves com `TAB` em um trecho de código
-* http://github.com/acustodioo/vim-snippets - Necessário para o funcionamento do vim-snipmate
-<!-- vim:noet -->
+* https://github.com/SirVer/ultisnips - Transforma palavras chaves com `TAB` em um trecho de código

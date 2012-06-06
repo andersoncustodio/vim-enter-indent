@@ -10,7 +10,7 @@ let s:pairs = [
 	\ ['<?\(php\)\?','?>'],
 	\ ['<%', '%>'],
 	\ ['\[[^\]]*\]', '\[/[^\]]*\]'],
-	\ ['<\!--', '-->'],
+	\ ['<\!--\(\[[^\]]*\]>\)\?', '\(<\!\[[^\]]*\]\)\?-->'],
 	\ ['\(#\)\?{[^\}]*\}', '\(#\)\?{[^\}]*\}'],
 	\ ['{{[^}]*}}', '{{[^}]*}}'],
 	\ ]
@@ -41,16 +41,15 @@ func! EnterIndent()
 		\ )
 
 	if matchstr(getline_left, pair[0] . '$') == ""
-		call feedkeys("\<CR>", 'n') | return ''
+		silent call feedkeys("\<CR>", 'n') | return ''
 	endif
 
 	let line = line('.')
 	let indent = substitute(getline_left, '^\([ |\t]*\).*$', '\1', '')
 
-	call setline(line, getline_left)
-	call append(line, indent . getline_right)
-	call append(line, indent)
-	call feedkeys("\<Down>\<Esc>\A\<Tab>", 'n')
+	silent call setline(line, getline_left)
+	silent call append(line, indent . getline_right)
+	silent call feedkeys("\<Esc>\o", 'n')
 
 	return ''
 endf
