@@ -49,7 +49,7 @@ func! EnterIndent()
 
 	silent call setline(line, getline_left)
 	silent call append(line, indent . getline_right)
-	silent call feedkeys("\<Esc>\o", 'n')
+	silent call feedkeys("\<Esc>\<Down>\O", 'n')
 
 	return ''
 endf
