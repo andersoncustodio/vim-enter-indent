@@ -1,4 +1,4 @@
-" Author:  acustodioo <http://github.com/acustodioo>
+" Author:  andersoncustodio <https://github.com/andersoncustodio/vim-enter-indent>
 " License: GPL
 
 if exists('g:loaded_enter_indent') | finish | endif
@@ -54,6 +54,8 @@ func! EnterIndent()
 	return ''
 endf
 
-inoremap <silent> <cr> <c-r>=EnterIndent()<cr>
+if !exists('g:enter_indent_default_keymap') || g:enter_indent_default_keymap == 1
+	inoremap <silent> <cr> <c-r>=EnterIndent()<cr>
+endif
 
 " vim:noet

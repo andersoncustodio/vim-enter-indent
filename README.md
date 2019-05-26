@@ -22,6 +22,12 @@ Também é compatível com tags html, BBcode, smarty e algumas outras.
 		|
 	}
 
+Agora é possível desativar o mapeamento padrão para criar um personalizado
+
+    let g:enter_indent_default_keymap = 0
+
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-r>=EnterIndent()\<cr>"
+
 Para um melhor aproveito do `enter-indent` recomendo que você use os seguintes plugins.
 
 * http://github.com/Raimondi/delimitMate - Fecha automaticamente aspas, parentese, colchete e etc
