@@ -4,7 +4,7 @@
 if exists('g:loaded_enter_indent') | finish | endif
 let g:loaded_enter_indent = 1
 
-let s:pairs = [
+let g:enter_indent_pairs = [
 	\ ['[\{\[\(]','[\)\]\}]'],
 	\ ['<[^>]*>', '</[^>]*>'],
 	\ ['<?\(php\)\?','?>'],
@@ -16,42 +16,32 @@ let s:pairs = [
 	\ ]
 
 func! EnterIndent()
-
-	let getline = getline('.')
+	let line = getline('.')
 	let col = col('.') - 1
 
-	let getline_right = substitute(
-		\ strpart(getline, col, col('$')),
-		\ '^[ ]*', '', ''
-		\ )
+	let line_right = trim(line[col:])
 
-	if getline_right == "" | call feedkeys("\<CR>", 'n') | return '' | endif
+	if line_right == "" | return "\<CR>" | endif
 
-	for pair in s:pairs
-		if matchstr(getline_right, '^' . pair[1]) != ""
+	for pair in g:enter_indent_pairs
+		if matchstr(line_right, '^' . pair[1]) != ""
 			let found = 1 | break
 		endif
 	endfor
 
-	if !exists('found') | call feedkeys("\<CR>", 'n') | return '' | endif
+	if !exists('found') | return "\<CR>" | endif
 
-	let getline_left = substitute(
-		\ strpart(getline, 0, col),
-		\ '[ ]*$', '', ''
-		\ )
+	let line_left = trim(line[0:col-1])
 
-	if matchstr(getline_left, pair[0] . '$') == ""
-		silent call feedkeys("\<CR>", 'n') | return ''
+	if matchstr(line_left, pair[0] . '$') == ""
+		return "\<CR>"
 	endif
 
-	let line = line('.')
-	let indent = substitute(getline_left, '^\([ |\t]*\).*$', '\1', '')
+	if line[col] == " " || line[col-1] == " "
+		return "\<Esc>bf\<Space>dwi\<CR>\<Esc>O"
+	endif
 
-	silent call setline(line, getline_left)
-	silent call append(line, indent . getline_right)
-	silent call feedkeys("\<Esc>\<Down>\O", 'n')
-
-	return ''
+    return "\<CR>\<Esc>O"
 endf
 
 if !exists('g:enter_indent_default_keymap') || g:enter_indent_default_keymap == 1
